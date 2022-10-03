@@ -18,6 +18,18 @@ Route::post('/system/admin', 'Auth\LoginController@system_Login')->name('system.
 Route::resource('courses','CourseController')->middleware('auth.basic');
 Route::resource('students','StudentController');
 Route::resource('users','UserController');
+Route::get('coursesToStuents/{student_id}','CourseToStudentController@create')->name('courseToStudent');
+Route::get('assignedcourses/{student_id}','CourseToStudentController@assignedcourses')->name('assignedcourses');
+Route::post('payment','PaymentController@pay')->name('pay');
+Route::get('paypal/done','PaypalController@getDone')->name('paypalDone');
+Route::get('paypal/cancel','PaypalController@getCancel')->name('paypalCancel');
+
+Route::post('/stripe/create', 'StripeController@create_checkout_session')->name('stripe.create');
+Route::get('/stripe/success', 'StripeController@success')->name('stripe.success');
+Route::get('/stripe/cancel', 'StripeController@cancel')->name('stripe.cancel');
+// Route::post('payment/{gateway}','PaymentController@pay')->name('paypal');
+// Route::post('payment/{gateway}','PaymentController@pay')->name('stripe');
+Route::post('assigncoursesToStuents','CourseToStudentController@store')->name('courseAssign');
 
 Auth::routes();
 

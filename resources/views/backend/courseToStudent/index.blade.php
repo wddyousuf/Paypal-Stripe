@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Manage Students</h1>
+            <h1 class="m-0">Manage Students Courses</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-              <li class="breadcrumb-item active">Manage Students</li>
+              <li class="breadcrumb-item active">Manage Students Courses</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -34,7 +34,8 @@
                   <h3>
                     <i class="mr-1 text-info"></i>
                     Courses
-                    <a href="{{ route('students.create') }}" class="btn btn-info float-right "><i class="fa fa-plus-circle ml-1 mr-1"></i>Add Students</a>
+                    {{-- @dd($data) --}}
+                    <a href="{{ route('courseToStudent',$data->id) }}" class="btn btn-info float-right "><i class="fa fa-plus-circle ml-1 mr-1"></i>Add Courses</a>
 
                     </h3>
 
@@ -46,30 +47,41 @@
                         <thead>
                         <tr>
                           <th>SL No</th>
-                          <th>Student Name</th>
-                          <th>Registration No</th>
-                          <th>Action</th>
+                          <th>Course Name</th>
+                          <th>Price</th>
                         </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $price=0;
+                            @endphp
 
-                        @foreach ($data as $key=>$student)
+                        @foreach ($data->courses as $key=>$course)
+                        @php
+                            $price+=$course->course->course_price;
+                        @endphp
                         <tr>
                             <td>{{ $key+1 }}</td>
-                            <td>{{ $student->first_name.' '.$student->last_name }}</td>
-                            <td>{{ $student->reg_no }}</td>
+                            <td>{{ $course->course->course_name }}</td>
+                            <td>{{ $course->course->course_price }}</td>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <td>Total</td>
+                            <td>{{ $price }}</td>
                             <td>
-                                <a title="Edit" href="{{ route('courses.edit',$student->id) }}" class="btn btn-primary btn-xs">Edit</a>
-                                <a title="Assign Course" href="{{ route('courseToStudent',$student->id) }}" class="btn btn-success btn-xs">Assign</a>
-                                <a title="Assigned Courses" href="{{ route('assignedcourses',$student->id) }}" class="btn btn-success btn-xs">Assigned Courses</a>
-                                <form method="POST" action="{{ route('courses.destroy', $student->id) }}">
+                                <form action="{{url('payment')}}" method="POST">
                                     @csrf
-                                    @method('delete')
-                                    <a type="submit" id="delete" class="badge btn btn-danger btn-xs" title='Delete'>delete</a>
+                                    <input type="radio" id="paypal" name="gateway" value="paypal">
+                                    <label for="paypal">paypal</label><br>
+                                    <input type="radio" id="stripe" name="gateway" value="stripe">
+                                    <label for="stripe">stripe</label><br>
+                                    <input type="hidden" name="amount" value="{{ $price }}">
+                                    <input type="hidden" name="student_id" value="{{ $data->id }}">
+                                    <button type="submit">Pay Now</button>
                                 </form>
                             </td>
                         </tr>
-                        @endforeach
                     </tbody>
                     </table>
                 </div>

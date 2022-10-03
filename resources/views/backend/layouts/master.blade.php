@@ -356,6 +356,31 @@
 
 <script>
     $(document).ready(function () {
+        $('#payment').on('click',function(e){
+            e.preventDefault();
+            let student_id = $(this).attr('student_id');
+            let amount = $(this).attr('price');
+            let gateway = $(this).attr('gateway');
+                $.ajax({
+                    url: "{{ url('/payment') }}",
+                    type: "POST",
+                    data: {
+                        "student_id": student_id,
+                        "amount": amount,
+                        "gateway": gateway,
+                        "_token": "{{csrf_token()}}"
+                    },
+                    success: function (data) {
+                        if (data.status == 200) {
+                            $('#cart'+course_id).remove();
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                        window.location.reload();
+                    },
+                });
+        });
 
         $(document).on('click', '#delete', function () {
             var form = $(this).closest("form");

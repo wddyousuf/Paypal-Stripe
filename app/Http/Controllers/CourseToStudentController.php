@@ -2,84 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\CourseToStudent;
+use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CourseToStudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function create($student_id)
     {
-        //
+        $data['courses']=Course::all();
+        $data['student']=Student::where('id',$student_id)->first();
+        return view('backend.courseToStudent.createOrEdit')->with('data',$data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $user_id=$request->student_id;
+        foreach ($request->course_id as $key => $course_id) {
+            if(CourseToStudent::where('student_id',$user_id)->where('course_id',$course_id)->exists()){
+                CourseToStudent::where('student_id',$user_id)->where('course_id',$course_id)->update([
+                    'course_id'=>$course_id,
+                    'student_id'=>$user_id,
+                ]);
+            }else{
+                CourseToStudent::create([
+                    'course_id'=>$course_id,
+                    'student_id'=>$user_id,
+                ]);
+            }
+        }
+        return redirect()->back()->with('success', 'Course Assigned Successfully ');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\CourseToStudent  $courseToStudent
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CourseToStudent $courseToStudent)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\CourseToStudent  $courseToStudent
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CourseToStudent $courseToStudent)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CourseToStudent  $courseToStudent
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CourseToStudent $courseToStudent)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\CourseToStudent  $courseToStudent
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CourseToStudent $courseToStudent)
-    {
-        //
+    public function assignedcourses($student_id){
+        $data=Student::with('courses.course')->where('id',$student_id)->first();
+        return view('backend.courseToStudent.index')->with('data',$data);
     }
 }
