@@ -45,7 +45,7 @@ class CourseToStudentController extends Controller
 
     public function course_details($course_id)
     {
-        return $data = Course::with('students.student')->where('id', $course_id)->first();
+        $data = Course::with('students.student')->where('id', $course_id)->first();
         return view('backend.courseToStudent.courses')->with('data', $data);
     }
 

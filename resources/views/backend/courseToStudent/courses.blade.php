@@ -32,7 +32,8 @@
                             <div class="card-header">
                                 <h3>
                                     <i class="mr-1 text-info"></i>
-                                    Courses
+                                    Courses : {{$data->course_name}} <br>
+                                    No of Sold : {{$data->sold}}
                                     {{-- @dd($data) --}}
                                     <a href="{{ route('courseToStudent', $data->id) }}" class="btn btn-info float-right "><i
                                             class="fa fa-plus-circle ml-1 mr-1"></i>Add Courses</a>
@@ -57,41 +58,15 @@
                                             $price = 0;
                                         @endphp
 
-                                        @foreach ($data->courses as $key => $course)
-                                            @php
-                                                if ($course->is_paid == 0) {
-                                                    $price += $course->course->course_price;
-                                                }
-
-                                            @endphp
+                                        @foreach ($data->students as $key => $student)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $course->course->course_name }}</td>
-                                                <td>{{ $course->course->course_price }}</td>
-                                                <td>{{ $course->is_paid == 0 ? 'Unpaid' : 'Paid' }}</td>
+                                                <td>{{ $student->student->first_name }}</td>
+                                                <td>{{ $data->course_price }}</td>
+                                                <td>{{ $student->is_paid == 0 ? 'Unpaid' : 'Paid' }}</td>
                                             </tr>
                                         @endforeach
-                                        <tr>
-                                            <td colspan="2">Total</td>
-                                            <td>{{ $price }}</td>
-                                            <td>
-                                                @if ($price > 0)
-                                                    <form action="{{ url('payment') }}" method="POST">
-                                                        @csrf
-                                                        <input type="radio" id="paypal" name="gateway" value="paypal">
-                                                        <label for="paypal">paypal</label><br>
-                                                        <input type="radio" id="stripe" name="gateway" value="stripe">
-                                                        <label for="stripe">stripe</label><br>
-                                                        <input type="hidden" name="amount" value="{{ $price }}">
-                                                        <input type="hidden" name="student_id" value="{{ $data->id }}">
-                                                        <button type="submit">Pay Now</button>
-                                                    </form>
-                                                @else
-                                                    Paid
-                                                @endif
 
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

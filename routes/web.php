@@ -30,7 +30,7 @@ Route::get('/stripe/cancel', 'StripeController@cancel')->name('stripe.cancel');
 Auth::routes();
 Route::get('assignedcourses', 'CourseToStudentController@assigned')->name('assigned')->middleware('auth.basic');
 
-Route::get('/homepage', 'HomeController@index')->name('homepage');
+Route::get('/', 'CourseToStudentController@assigned')->name('homepage')->middleware('auth.basic');
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/home', 'IndexController@index')->name('home');
     Route::post('assigncoursesToStuents', 'CourseToStudentController@store')->name('courseAssign');

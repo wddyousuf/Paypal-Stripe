@@ -10,8 +10,7 @@ use Stripe\Stripe;
 
 class StripeController extends Controller
 {
-    public function pay($request)
-    {
+    public function pay($request){
         return view('common.stripe');
     }
 

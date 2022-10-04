@@ -23,6 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect('/assignedcourses');
+        return redirect()->route('assigned');
     }
 }
