@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Manage Students Courses</h1>
+                        <h1 class="m-0">Manage Courses</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Manage Students Courses</li>
+                            <li class="breadcrumb-item active">Manage Courses</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -47,7 +47,7 @@
                                     <thead>
                                         <tr>
                                             <th>SL No</th>
-                                            <th>Course Name</th>
+                                            <th>Student Name</th>
                                             <th>Price</th>
                                             <th>Payment Status</th>
                                         </tr>
