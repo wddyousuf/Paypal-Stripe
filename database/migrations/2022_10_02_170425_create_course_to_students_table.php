@@ -17,6 +17,7 @@ class CreateCourseToStudentsTable extends Migration
             $table->id();
             $table->string('student_id')->nullable();
             $table->string('course_id')->nullable();
+            $table->boolean('is_paid')->default(0);
             $table->timestamps();
         });
     }
