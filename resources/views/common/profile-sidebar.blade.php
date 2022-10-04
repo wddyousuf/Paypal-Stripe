@@ -2,26 +2,15 @@
     <h2>Hello, User</h2>
     <div class="profile-menubox">
         <ul class="nav flex-column">
-
             <li class="nav-item">
-                <a class="nav-link  active " href="{{ url('/profile') }}">
-                    <i class="far fa-user"></i>
-                    profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="{{ url('/orders') }}">
+                <a class="nav-link " href="{{ url('/assignedcourses') }}">
                     <i class="fas fa-shopping-cart"></i>
-                    orders
+                    Courses
                 </a>
             </li>
-
             <li class="nav-item">
-                <a class="nav-link " href="{{ url('/change-pass') }}">
-                    <i class="fas fa-unlock-alt"></i>
-                    change password</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a class="nav-link " href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-power-off"></i>
                     logout
                 </a>
